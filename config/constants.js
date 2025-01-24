@@ -29,7 +29,11 @@ const Events={
             update:'update_variant',
             delete:'delete_variant',
         },
-        
+        unitType:{
+            create:'create_unit_type',
+            update:'update_unit_type',
+            delete:'delete_unit_type',
+        }
     }
 };
 const ValidationRules={
@@ -113,6 +117,20 @@ const ValidationRules={
             },
             delete:{
                 variantId:'required|string',
+            }
+        },
+        unitType:{
+            create:{
+                unit_type:'required|string',
+                unit_count:'required|integer',
+            },
+            update:{
+                unitId:'required|string',
+                unit_type:'string',
+                unit_count:'integer'
+            },
+            delete:{
+                unitId:'required|string',
             }
         }
     }
