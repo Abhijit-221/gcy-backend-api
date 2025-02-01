@@ -1,9 +1,8 @@
 const mongoose = require('mongoose');
 const {Events,Validator, ValidationRules, ValidatinMessage}=require('../../config/constants');
 const {Schema} = mongoose;
-const CategoryEvents = Events.category;
-const CategoryValidation = ValidationRules.category;
-const CategoryValidationMsg=ValidatinMessage.category;
+const ProductEvents = Events.product.products;
+const ProductRules = ValidationRules.product.products;
 const ObjectId = mongoose.Types.ObjectId;
 
 const productImage = new Schema({
@@ -13,6 +12,12 @@ const productImage = new Schema({
 })
 
 const ProductSchema = new Schema({
+    brand_id:{
+        type:mongoose.SchemaTypes.ObjectId,
+        ref:'brand',
+        required:true,
+        trim:true
+    },
     productGroupId:{
         type:mongoose.SchemaTypes.ObjectId,
         ref:'productGroup',
@@ -27,7 +32,7 @@ const ProductSchema = new Schema({
     },
     unit_type:{
         type:mongoose.SchemaTypes.ObjectId,
-        ref:'',
+        ref:'unitType',
         required:false,
         trim:true
     },
@@ -95,6 +100,11 @@ const ProductSchema = new Schema({
         required:false,
         trim:true
     },
+    containerType:{
+        type:String,
+        required:true,
+        trim:true
+    },
     legalDisclaimer:{
         type:String,
         required:false,
@@ -159,19 +169,21 @@ const ProductSchema = new Schema({
 
     });
 
-const ProductGroup = mongoose.model('product', ProductSchema);
+const Product = mongoose.model('product', ProductSchema);
 //Input data validate 
-const ProductGroupDataValidate = (data,event)=>{
+const ProductDataValidate = (data,event)=>{
+    console.log(data,event);
+    
     let rules={};
     let msg={};
     switch(event){
-        case CategoryEvents.addCategory:
+        case ProductEvents.create:
             rules={
-                ...CategoryValidation.addCategory
+                ...ProductRules.create,
             };
-            msg={
-                ...CategoryValidationMsg.addCategory
-            };
+            // msg={
+            //     ...ProductEvents.addCategory
+            // };
         break;
         
         default:
@@ -188,4 +200,4 @@ const ProductGroupDataValidate = (data,event)=>{
     }
     
 }
-module.exports={ProductGroup,ProductGroupDataValidate};
+module.exports={Product,ProductDataValidate};

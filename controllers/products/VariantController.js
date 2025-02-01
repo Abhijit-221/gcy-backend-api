@@ -1,5 +1,5 @@
 const { ResponseCode,_,CustomResponse, Events } = require("../../config/constants");
-const { VariantDataValidate, Variant } = require("../../models/product/varient");
+const { VariantDataValidate, Variant } = require("../../models/product/variant");
 const VariantEvents = Events.product.variant;
 const { mongoose } = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;

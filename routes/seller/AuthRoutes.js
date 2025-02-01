@@ -24,6 +24,6 @@ sellerRouter.post('/signup',AuthController.signup);
 sellerRouter.post('/login',AuthController.login);
 sellerRouter.get('/get',SellerAuth,AuthController.getSeller);
 sellerRouter.post('/refresh',AuthController.refreshToken);
-sellerRouter.post('/profile-update',uploadFile(profilePayload),AuthController.updateProfile);
+sellerRouter.post('/profile-update',SellerAuth,uploadFile(profilePayload),AuthController.updateProfile);
 
 module.exports=sellerRouter;

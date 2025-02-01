@@ -33,6 +33,11 @@ const Events={
             create:'create_unit_type',
             update:'update_unit_type',
             delete:'delete_unit_type',
+        },
+        products:{
+            create:'create_product',
+            update:'update_product',
+            delete:'delete_product',
         }
     }
 };
@@ -132,6 +137,35 @@ const ValidationRules={
             delete:{
                 unitId:'required|string',
             }
+        },
+        products:{
+            create:{
+                brandName:'required|string',
+                productName:'required|string',
+                category:'required|string',
+                variant_id:'required|string',
+                unit_type:'required|string',
+                quantity:'required|integer',
+                usedFor:'required|string',
+                processingType:'string',
+                price:'required|numeric',
+                maximumShelfLife:'required|string',
+                foodPreference:'required|string',
+                dietaryPreference:'string',
+                organic:'required|string',
+                containerType:'required|string',
+                addedPreservatives:'string',
+                ingredients:'string',
+                nutrientContent:'string',
+                netQuantity:'required|integer',
+                legalDisclaimer:'required|string',
+                genericName: 'string',
+                countryOrigin:'required|string',
+                manufacturerDetails:'string',
+                importerDetails:'string',
+                packerDetails:'string',
+                description:'string',
+            }
         }
     }
 };
@@ -179,6 +213,9 @@ const ValidatinMessage={
     },
     product:{
         variant:{},
+        addProduct:{
+
+        }
 
     }
 };

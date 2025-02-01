@@ -18,17 +18,12 @@ const ProductGroupSchema = new Schema({
         required:true,
         trim:true
     },
-    brand:{
-        type:mongoose.SchemaTypes.ObjectId,
-        ref:'brand',
-    },
-    category: {
+    category: {//subcategory
         type:mongoose.SchemaTypes.ObjectId,
         ref:'category',
         // required:true,
         trim:true
     },
-    
     productImage:{
         type:[productImage],
         required:false

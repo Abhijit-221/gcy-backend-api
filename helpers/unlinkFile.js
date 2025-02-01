@@ -7,8 +7,10 @@ const unlinkFiles = async(filesObj)=>{
     for (const property in filesObj){    
         // fs.unlinkSync(filesObj[`${property}`][0].path);
         if(filesObj[`${property}`]){
-            const {result,error}=await cloudinary.uploader.destroy(filesObj[`${property}`][0].filename);
-            console.log(result, error);
+            for(let i=0;i<filesObj[`${property}`].length;i++){
+                const {result,error}=await cloudinary.uploader.destroy(filesObj[`${property}`][i].filename);
+                console.log(result, error);
+            }
         }
     }
 }

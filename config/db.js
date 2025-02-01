@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 //connection
-const dbconnection = mongoose.connect('mongodb://localhost:27017/gcy-db',{
+const dbconnection = mongoose.connect(process.env.DB_URL,{
     autoIndex: true,
 })
     .then(() => {
