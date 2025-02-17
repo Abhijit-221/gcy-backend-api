@@ -18,7 +18,9 @@ const Payload = {
     size:1024*1024*5
 };
 productRouter.post('/create',SellerAuth,uploadFile(Payload),ProductController.createProduct);
-// productRouter.post('/update',SellerAuth,UnitTypeController.updateUnitType);
+productRouter.post('/update',SellerAuth,ProductController.updateProduct);
+productRouter.post('/update-images',SellerAuth,SellerAuth,uploadFile(Payload),ProductController.updateProductImage);
+
 // productRouter.get('/get',SellerAuth,UnitTypeController.getUnitType);
 // productRouter.get('/for-product',SellerAuth,UnitTypeController.getUnitTypeForProduct);
 

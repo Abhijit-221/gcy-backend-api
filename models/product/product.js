@@ -185,7 +185,16 @@ const ProductDataValidate = (data,event)=>{
             //     ...ProductEvents.addCategory
             // };
         break;
-        
+        case ProductEvents.update:
+            rules={
+                ...ProductRules.update
+            }
+        break;
+        case ProductEvents.update_image:
+            rules={
+                ...ProductRules.update_image
+            }
+        break;
         default:
     }
     const validation = new Validator(data,rules,msg);
