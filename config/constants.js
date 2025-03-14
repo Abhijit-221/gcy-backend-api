@@ -23,6 +23,10 @@ const Events={
         updateCategory:'update_category',
         deleteCategory:'delete_category',
     },
+    brand:{
+        update:'update_brand',
+        delete:'delete_brand',
+    },
     product:{
         variant:{
             create:'create_variant',
@@ -109,6 +113,13 @@ const ValidationRules={
         deleteCategory:{
             catId:'required|string',
         }
+    },
+    Brand:{
+        update:{
+            brand_id:'required|string',
+            brandName:'string',
+            isActive:'boolean'
+        },
     },
     product:{
         variant:{
@@ -372,7 +383,10 @@ class CustomResponse {
 };
 const AccessTokenExpiry="1d";
 const RefreshTokenExpiry="10d";
-
+const pagination={
+    page:1,
+    limit:10,
+}
 
 module.exports={
     ResponseCode,
@@ -383,5 +397,6 @@ module.exports={
     Validator,
     CustomResponse,
     AccessTokenExpiry,
-    RefreshTokenExpiry
+    RefreshTokenExpiry,
+    pagination
 };

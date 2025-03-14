@@ -1,5 +1,5 @@
 const { find } = require("lodash");
-const { ResponseCode, _, CustomResponse, Events } = require("../../config/constants");
+const { ResponseCode, _, CustomResponse, Events, pagination } = require("../../config/constants");
 const { Brand } = require("../../models/product/brand");
 const { ProductDataValidate, Product } = require("../../models/product/product");
 const { ProductGroup } = require("../../models/product/productGroup");
@@ -437,5 +437,152 @@ module.exports = {
             console.log('Internal server error:', error);
             return res.status(ResponseCode.INTERNAL_SERVERERROR).json(response.setServerError(error,INTERNAL_SERVERERROR));
         }
-    }
+    },
+    /**
+     * @filename ProductController.js
+     * @method products
+     * @router GET /api/tezrati/v1/product/get
+     * @params
+     * @Auther Abhijit swain
+     * @desc get products.
+     * @autherization SellerAuth
+     */
+    products:async(req,res)=>{
+        console.log('Inside ProductController products API...');
+        const response = new CustomResponse();
+        try{
+            let {page,limit,search}=req.query;
+            page=page?parseInt(page):pagination.page;
+            limit=limit?parseInt(limit):pagination.limit;
+            skip=page*limit-limit;
+            let searchQuery = search?{$or: [
+                // { productName: { $regex: `${search}`, $options: "i" } }, // Search in Product collection
+                // { quantity: { $regex: search, $options: "i" } }, // Search in Product collection
+                { "productGroup.productName": { $regex: search, $options: "i" } } // Search in ProductGroup collection
+            ]}:{};
+            
+            //let get products
+            let products = await Product.aggregate([
+                {
+                    $match: {isDeleted:false}
+                },
+                {
+                    $lookup: {
+                        from:"brands",
+                        localField:"brand_id",
+                        foreignField:"_id",
+                        as:"brand",
+                    }
+                },
+                {
+                    $unwind: { path: "$brand", preserveNullAndEmptyArrays: true }
+                },
+                {
+                    $lookup: {
+                        from:'productgroups',
+                        localField:"productGroupId",
+                        foreignField:"_id",
+                        as:"productGroup",
+                        pipeline:[
+                            // {
+                            //     $match: {
+                            //         productName: { $regex: "search", $options: "i" } 
+                            //     }
+                            // },
+                            {
+                                $lookup:{
+                                    from:'categories',
+                                    localField:'category',
+                                    foreignField:'_id',
+                                    as:'category'
+                                }
+                            },
+                            {
+                                $unwind: { path: "$category", preserveNullAndEmptyArrays: true }
+                            }
+                        ]
+                    }
+                },
+                {
+                    $unwind: { path: "$productGroup", preserveNullAndEmptyArrays: true }
+                },
+                {
+                    $match: {
+                        ...searchQuery
+                    }
+                },
+                {
+                    $sort: {"productGroup.productName" : 1 } // Sorting by product name
+                },
+                { $skip: skip },  // Skip previous pages
+                { $limit: limit }
+            ]);
+            //let product count
+            let productCount = await Product.aggregate([
+                {
+                    $match: {isDeleted:false}
+                },
+                {
+                    $lookup: {
+                        from:"brands",
+                        localField:"brand_id",
+                        foreignField:"_id",
+                        as:"brand",
+                    }
+                },
+                {
+                    $unwind: { path: "$brand", preserveNullAndEmptyArrays: true }
+                },
+                {
+                    $lookup: {
+                        from:'productgroups',
+                        localField:"productGroupId",
+                        foreignField:"_id",
+                        as:"productGroup",
+                        pipeline:[
+                            // {
+                            //     $match: {
+                            //         productName: { $regex: "search", $options: "i" } 
+                            //     }
+                            // },
+                            {
+                                $lookup:{
+                                    from:'categories',
+                                    localField:'category',
+                                    foreignField:'_id',
+                                    as:'category'
+                                }
+                            },
+                            {
+                                $unwind: { path: "$category", preserveNullAndEmptyArrays: true }
+                            }
+                        ]
+                    }
+                },
+                {
+                    $unwind: { path: "$productGroup", preserveNullAndEmptyArrays: true }
+                },
+                {
+                    $match: {
+                        ...searchQuery
+                    }
+                },
+                {
+                    $sort: {"productGroup.productName" : 1 } // Sorting by product name
+                },
+                {
+                    $group:{_id:null,count: { $count: { } }}
+                }
+                
+            ]);
+            return res.status(ResponseCode.OK).json(response.setSuccess({products,productCount},"Product data fetched successfully."));
+            
+        }
+        catch(error){
+            console.log('Internal server error:', error);
+            return res.status(ResponseCode.INTERNAL_SERVERERROR).json(response.setServerError(error,"Internal server error."));
+        }
+    },
+    
+
 }

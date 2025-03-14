@@ -21,7 +21,7 @@ productRouter.post('/create',SellerAuth,uploadFile(Payload),ProductController.cr
 productRouter.post('/update',SellerAuth,ProductController.updateProduct);
 productRouter.post('/update-images',SellerAuth,SellerAuth,uploadFile(Payload),ProductController.updateProductImage);
 
-// productRouter.get('/get',SellerAuth,UnitTypeController.getUnitType);
+productRouter.get('/get',SellerAuth,ProductController.products);
 // productRouter.get('/for-product',SellerAuth,UnitTypeController.getUnitTypeForProduct);
 
 module.exports = productRouter ;
