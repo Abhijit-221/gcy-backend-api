@@ -28,6 +28,9 @@ const Events={
         delete:'delete_brand',
     },
     product:{
+        productGroup:{
+            update:'update_product_group',
+        },
         variant:{
             create:'create_variant',
             update:'update_variant',
@@ -43,7 +46,8 @@ const Events={
             update:'update_product',
             delete:'delete_product',
             update_image:'update_image'
-        }
+        },
+        productForCustomer:'product_for_customer'
     }
 };
 const ValidationRules={
@@ -122,6 +126,14 @@ const ValidationRules={
         },
     },
     product:{
+        productGroup:{
+            update:{
+                product_id:'required|string',
+                productName:'string',
+                category:'string',
+                isActive:'boolean'
+            }
+        },
         variant:{
             create:{
                 name:'required|string',
@@ -208,6 +220,13 @@ const ValidationRules={
             update_image:{
                 product_id:'required|string',
                 remove_ids:'array',
+            },
+            productForCustomer:{
+                // 'filter.price':'numeric',
+                'filter.brand_id':'string',
+                'filter.variant_id':'string',
+                'filter.range.start':'numeric',
+                'filter.range.end':'numeric',
             }
         }
     }

@@ -2,6 +2,7 @@ const express = require('express');
 const SellerAuth = require('../../middlewares/SellerAuth');
 const ProductController = require('../../controllers/products/ProductController');
 const uploadFile = require('../../middlewares/fileUploadWithCloud');
+const ProductGroupController = require('../../controllers/products/ProductGroupController');
 const productRouter = express.Router();
 
 const productImgMimeType = [
@@ -24,4 +25,7 @@ productRouter.post('/update-images',SellerAuth,SellerAuth,uploadFile(Payload),Pr
 productRouter.get('/get',SellerAuth,ProductController.products);
 // productRouter.get('/for-product',SellerAuth,UnitTypeController.getUnitTypeForProduct);
 
+//product group routes
+productRouter.post('/update-product-group',SellerAuth,ProductGroupController.updateProductGroup);
+productRouter.get('/get-product-group',SellerAuth,ProductGroupController.getProductGroup);
 module.exports = productRouter ;

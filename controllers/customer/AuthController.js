@@ -83,51 +83,37 @@ module.exports = {
             let inputData = _.pick(req.body,['email','password']);
             let results = await CustomerDataValidate(inputData,CustomerEvent.login);
             if(results.hasError){
-                return res.status(ResponseCode.BAD_REQUEST).json(response
-                    .setStatus(ResponseCode.BAD_REQUEST)
-                    .setError(results.errors.errors)
-                    .setMessage("Invalid input data.")
+                return res.status(ResponseCode.BAD_REQUEST).json(response.setBadrequest(results.errors,"Invalid input data.")
                 )           
             }
             //let check customer exist or not 
             let user = await Customer.findOne({email:inputData.email,isDeleted:false});
             if(!user){
-                return res.status(ResponseCode.NOT_FOUND).json(response
-                    .setStatus(ResponseCode.NOT_FOUND)
-                    .setError({error:"User not found"})
-                    .setMessage("User not found on this email.")
+                return res.status(ResponseCode.NOT_FOUND).json(
+                    response.setNotfound("User not found on this email.","User not found on this email.")
                 )    
             }
             if(!user.isActive){
-                return res.status(ResponseCode.FORBIDDEN).json(response
-                    .setStatus(ResponseCode.FORBIDDEN)
-                    .setError({error:"You account has suspended."})
-                    .setMessage("You account has suspended.")
+                return res.status(ResponseCode.FORBIDDEN).json(
+                    response.setForbidden("You account has suspended.","You account has suspended.")
                 )    
             }
             let comparePassword = await bcrypt.compare(inputData.password,user.password);
             if(!comparePassword){
-                return res.status(ResponseCode.FORBIDDEN).json(response
-                    .setStatus(ResponseCode.FORBIDDEN)
-                    .setError({error:"Enter a valid password."})
-                    .setMessage("Enter a valid password.")
+                return res.status(ResponseCode.FORBIDDEN).json(
+                    response.setForbidden("Enter a valid password.","Enter a valid password.")
                 )  
             }
             let {AccessToken,RefreshToken} = await generateToken({id:user.id});
-            return res.status(ResponseCode.OK).json(response
-                .setStatus(ResponseCode.OK)
-                .setData({AccessToken,RefreshToken})
-                .setError({error:"Login successfully."})
-                .setMessage("Login successfully.")
+            return res.status(ResponseCode.OK).json(
+                response.setSuccess({AccessToken,RefreshToken},'Login successfully')
             ) 
 
         }
         catch(error){
             console.log(error)
-            return res.status(ResponseCode.INTERNAL_SERVERERROR).json(response
-                .setStatus(ResponseCode.INTERNAL_SERVERERROR)
-                .setError(error)
-                .setMessage("Internal server error")
+            return res.status(ResponseCode.INTERNAL_SERVERERROR).json(
+                response.setServerError(error,'Internal server error')
             )
         }
     },

@@ -29,7 +29,7 @@ module.exports={
             let brands = await Brand.find({
                 isDeleted: false,
                 isActive:true,
-                
+                ...searchQuery
             });
             return res.status(ResponseCode.OK).json(response.setSuccess(brands,"Brands fetched successfully."));
             

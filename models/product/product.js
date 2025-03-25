@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const {Events,Validator, ValidationRules, ValidatinMessage}=require('../../config/constants');
 const {Schema} = mongoose;
-const ProductEvents = Events.product.products;
-const ProductRules = ValidationRules.product.products;
+const ProductEvents = Events.product;
+const ProductRules = ValidationRules.product;
 const ObjectId = mongoose.Types.ObjectId;
 
 const productImage = new Schema({
@@ -177,22 +177,27 @@ const ProductDataValidate = (data,event)=>{
     let rules={};
     let msg={};
     switch(event){
-        case ProductEvents.create:
+        case ProductEvents.products.create:
             rules={
-                ...ProductRules.create,
+                ...ProductRules.products.create,
             };
             // msg={
             //     ...ProductEvents.addCategory
             // };
         break;
-        case ProductEvents.update:
+        case ProductEvents.products.update:
             rules={
-                ...ProductRules.update
+                ...ProductRules.products.update
             }
         break;
-        case ProductEvents.update_image:
+        case ProductEvents.products.update_image:
             rules={
-                ...ProductRules.update_image
+                ...ProductRules.products.update_image
+            }
+        break;
+        case ProductEvents.productForCustomer:
+            rules={
+                ...ProductRules.productForCustomer
             }
         break;
         default:
