@@ -45,6 +45,14 @@ const CustomerSchema = new Schema({
     isDeleted:{
         type:Boolean,
         default:false
+    },
+    createdAt:{
+        type:Number,
+        default:Date.now(),
+    },
+    updatedAt:{
+        type:Number,
+        default:Date.now()
     }
 
     });

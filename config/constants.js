@@ -12,6 +12,11 @@ const Events={
     customer:{
         signup:'signup',
         login:'login',
+        address:{
+            add:'add_address',
+            update:'update_address',
+            remove:'remove_address'
+        }
     },
     seller:{
         signup:'seller_signup',
@@ -60,6 +65,35 @@ const ValidationRules={
         login:{
             email:'required|email',
             password:'required|alpha_num|min:8',
+        },
+        address:{
+            create:{
+                name:'required|string',
+                phNo:'required|numeric|min:10',
+                altPhNo:'required|numeric|min:10',
+                landmark1:'required|string',
+                landmark2:'string',
+                houseNo:'required|string',
+                city:'required|string',
+                pin:'required|integer',
+                receiveTime:'required|string|in:work,home'
+            },
+            update:{
+                add_id:'required|string',
+                name:'string',
+                phNo:'numeric|min:10',
+                altPhNo:'numeric|min:10',
+                landmark1:'string',
+                landmark2:'string',
+                houseNo:'string',
+                city:'string',
+                pin:'integer',
+                isPrimary:'boolean',
+                receiveTime:'string|in:work,home'
+            },
+            delete:{
+                add_id:'required|string',
+            }
         }
     },
     seller:{
@@ -97,7 +131,8 @@ const ValidationRules={
             govId:'string',
             // proofOfAddress:'required|string',
             GSTIN:['regex:/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/']
-        }
+        },
+        
     },
     category:{
         addCategory:{
