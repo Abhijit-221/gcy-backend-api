@@ -12,6 +12,7 @@ const customerProductRouter = require('./customer/ProductRouter');
 const customerBrandRouter = require('./customer/BrandRouter');
 const customerVariantRouter = require('./customer/VariantRouter');
 const customerAddressRouter = require('../routes/customer/AddressRouter');
+const cartRouter = require('./customer/CartRouter');
 const setupRoutes = (app) => {
     // app.use('/api', routes); // Attach the routes to /api
     app.use('/api/tezrati/customer/v1/auth', authRouter);
@@ -25,6 +26,7 @@ const setupRoutes = (app) => {
     app.use('/api/tezrati/v1/customer/brand', customerBrandRouter);
     app.use('/api/tezrati/v1/customer/variant', customerVariantRouter);
     app.use('/api/tezrati/v1/customer/address', customerAddressRouter);
+    app.use('/api/tezrati/v1/customer/cart', cartRouter);
 
   };
 //customer auth routes

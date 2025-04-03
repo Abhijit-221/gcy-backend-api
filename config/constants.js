@@ -16,6 +16,10 @@ const Events={
             add:'add_address',
             update:'update_address',
             remove:'remove_address'
+        },
+        cart:{
+            add:'add_to_cart',
+            remove:'remove_from_cart',
         }
     },
     seller:{
@@ -53,7 +57,8 @@ const Events={
             update_image:'update_image'
         },
         productForCustomer:'product_for_customer'
-    }
+    },
+    
 };
 const ValidationRules={
     customer:{
@@ -93,6 +98,21 @@ const ValidationRules={
             },
             delete:{
                 add_id:'required|string',
+            }
+        },
+        cart:{
+            add:{
+                items:'required|array',
+                'items.*.productId':'required|string',
+                'itmes.*.quantity':'required|integer',
+                'itmes.*.price':'required|numeric',
+                // totalAmount:'required|numeric',
+                // discount:'required|numeric',
+                // finalAmount:'required|numeric',
+                // status:'required|string|active,ordered,abandoned'
+            },
+            remove:{
+
             }
         }
     },
