@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
 module.exports=async (req,res,next)=>{
     let response= new CustomResponse();
-    console.log('items:',req.body.items);
+    // console.log('items:',req.body.items);
     if(req.body.items){
         // let productIds=[];
         for(let item of req.body.items){

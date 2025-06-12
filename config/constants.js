@@ -112,7 +112,10 @@ const ValidationRules={
                 // status:'required|string|active,ordered,abandoned'
             },
             remove:{
-
+                cart_id:'required|string',
+                items:'required|array',
+                'items.*.productId':'required|string',
+                'itmes.*.quantity':'required|integer',
             }
         }
     },
